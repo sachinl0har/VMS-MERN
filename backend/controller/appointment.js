@@ -1,9 +1,6 @@
 const Appointment = require("../models/appointment");
 const Visitor = require("../models/visitor");
 
-const { fetchVisitorDetails, fetchVisitorAppointments } = require("./visitor");
-
-
 // Feed Appointment
 exports.feedAppointment = async (req, res) => {
     try {
@@ -121,38 +118,11 @@ exports.fetchAppointmentDetails = async (req, res) => {
     }
 }
 
-// Fetch Appointments by Visitor ID
-exports.fetchAppointmentsByVisitorID = async (req, res) => {
-    try {
-        const appointments = await fetchVisitorAppointments(req, res);
-
-        // If appointments are not found
-        if (!appointments) {
-            return res.status(404).json({
-                status: "fail",
-                message: "No appointments found for this visitor",
-            });
-        }
-
-        res.status(200).json({
-            status: "success",
-            data: {
-                appointments,
-            },
-        });
-    } catch (err) {
-        res.status(400).json({
-            status: "fail",
-            message: err,
-        });
-    }
-}
-
 // Modify Appointment Details by Appointment ID
 exports.modifyAppointmentDetails = async (req, res) => {
     try {
         const appointment = await Appointment.findOneAndUpdate(
-            { appointmentID: req.body.appointmentID },
+            { appointmentID: req.params.id },
             req.body,
             {
                 new: true,
@@ -186,8 +156,42 @@ exports.modifyAppointmentDetails = async (req, res) => {
 exports.deleteAppointment = async (req, res) => {
     try {
         const appointment = await Appointment.findOneAndUpdate(
-            { appointmentID: req.body.appointmentID },
+            { appointmentID: req.params.id },
             { status: "Deleted" },
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+
+        // If appointment is not found
+        if (!appointment) {
+            return res.status(404).json({
+                status: "fail",
+                message: "No appointment found with this ID",
+            });
+        }
+
+        res.status(200).json({
+            status: "success",
+            data: {
+                appointment,
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err,
+        });
+    }
+}
+
+// Approve Reject Appointment by Appointment ID
+exports.approveRejectAppointment = async (req, res) => {
+    try {
+        const appointment = await Appointment.findOneAndUpdate(
+            { appointmentID: req.params.id },
+            req.body,
             {
                 new: true,
                 runValidators: true,

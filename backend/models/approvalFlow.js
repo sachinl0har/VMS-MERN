@@ -4,12 +4,14 @@ const approvalFlowSchema = new mongoose.Schema({
     approvalFlowID: {
         type: String,
         required: true,
+        unique: true,
     },
 
     organizationID: {
         type: String,
         ref: "Organization",
         required: true,
+        unique: true,
     },
 
     // Level One Approval

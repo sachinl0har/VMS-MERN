@@ -1,3 +1,4 @@
+const Appointment = require('../models/appointment');
 const Employee = require('../models/employee');
 
 // Register
@@ -11,6 +12,7 @@ exports.register = async (req, res, next) => {
         
         const employee = await Employee.create({
             employeeCode,
+            organizationID : req.body.organizationID,
             name,
             email,
             password,
@@ -92,7 +94,7 @@ exports.fetchEmployeeDetails = async (req, res) => {
         if (!employee) {
             return res.status(404).json({
                 status: "fail",
-                message: "No employee found with this code",
+                message: "No employee found",
             });
         }
 
@@ -115,22 +117,26 @@ exports.fetchEmployeeDetails = async (req, res) => {
 // Fetch Appointments by Employee Code
 exports.fetchAppointmentsByECode = async (req, res) => {
     try {
+
         const employee = await Employee.findOne({
-            employeeCode: req.body.employeeCode,
+            employeeCode: req.params.id,
         });
 
         // If employee is not found
         if (!employee) {
             return res.status(404).json({
                 status: "fail",
-                message: "No employee found with this code",
+                message: "No employee found",
             });
         }
 
+        // Fetch appointments by employee ID
         const appointments = await Appointment.find({
-            employeeToMeet: employee.employeeCode,
-            fedBy: employee.employeeCode
+            fedBy : employee.employeeCode,
+            employeeToMeet : employee.employeeCode,
         });
+
+        console.log(appointments);
 
         res.status(200).json({
             status: "success",

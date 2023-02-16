@@ -1,0 +1,444 @@
+{
+	"info": {
+		"_postman_id": "0c9883da-cf82-4a9b-950e-3f2308d94f9b",
+		"name": "VMS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19991678"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "EMP_REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organizationID\" : \"019\",\r\n    \"name\" : \"Prerna\",\r\n    \"email\" : \"prerna.contact@sachinlohar.com\",\r\n    \"password\" : \"Password@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMP_LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"contact@sachinlohar.com\",\r\n    \"password\" : \"Password@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_EMP_DETAILS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/fetchEmployeeDetails/2023S216825",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"fetchEmployeeDetails",
+								"2023S216825"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2023S233211",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchAppointmentsByECode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/fetchAppointmentsByECode/2023S216825",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"fetchAppointmentsByECode",
+								"2023S216825"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "FEED_APPOINTMENT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vName\": \"V Sachin2\",\r\n    \"vEmail\": \"hello@sachinlohar.com\",\r\n    \"vPhone\": \"9876543210\",\r\n    \"vAddress\": \"Ghar\",\r\n    \"vCompany\": \"ACROAI\",\r\n    \"ID_aadhar_pan\": \"242404040102\",\r\n\r\n    \"fromDate\": \"03-02-2023\",\r\n    \"toDate\": \"03-02-2023\",\r\n    \"appointmentDate\": \"03-02-2023\",\r\n    \"appointmentTime\": \"14:00\",\r\n    \"fedBy\": \"2023S216825\",\r\n    \"employeeToMeet\": \"2023S216825\",\r\n    \"groupToVisit\": \"IT\",\r\n    \"purpose\": \"Meeting\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/feedAppointment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"feedAppointment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_APPOINTMENT_DETAIL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/fetchAppointmentDetails/AP908627181",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"fetchAppointmentDetails",
+								"AP908627181"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ModifyAppointmentDetails",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purpose\" : \"Meeting Chenged\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/modifyAppointmentDetails/AP908627181",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"modifyAppointmentDetails",
+								"AP908627181"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAppointment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/deleteAppointment/AP908627181",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"deleteAppointment",
+								"AP908627181"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ApproveReject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\" : \"Approved\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/approveRejectAppointment/AP908627181",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"approveRejectAppointment",
+								"AP908627181"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "FeedApprovalFlow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organizationID\": \"024\",\r\n    \"levelOneApproval\": \"Group Head\",\r\n    \"levelTwoApproval\": \"Group Director\",\r\n    \"levelThreeApproval\": \"Security Rep\",\r\n    \"levelFourApproval\": \"Director Rep\",\r\n    \"organizationInTime\": \"08:00\",\r\n    \"organizationOutTime\": \"18:00\",\r\n    \"feedForDays\": \"24\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/feedApprovalFlow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"feedApprovalFlow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllApprovalFlow",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/getAllApprovalFlow",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"getAllApprovalFlow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateApprovalFlow",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"organizationID\": \"024\",\r\n    \"levelOneApproval\": \"Group Head\",\r\n    \"levelTwoApproval\": \"Group Director\",\r\n    \"levelThreeApproval\": \"Director Rep\",\r\n    \"levelFourApproval\": \"Security Rep\",\r\n    \"organizationInTime\": \"08:00\",\r\n    \"organizationOutTime\": \"18:00\",\r\n    \"feedForDays\": \"5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/updateApprovalFlow/AF306328775",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"updateApprovalFlow",
+								"AF306328775"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetApprovalFlowByOrganizationID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/getApprovalFlowByOrganizationID/024",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"getApprovalFlowByOrganizationID",
+								"024"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteApprovalFlow",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/deleteApprovalFlow/AF306328775",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"deleteApprovalFlow",
+								"AF306328775"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Visitor",
+			"item": [
+				{
+					"name": "FetchVisitorDetails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/fetchVisitorDetails/242404040102",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"fetchVisitorDetails",
+								"242404040102"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FetchVisitorAppointments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:6000/fetchVisitorAppointments/V839286231",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"fetchVisitorAppointments",
+								"V839286231"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateVisitorDetails",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vAddress\" : \"P Town Pune\",\r\n    \"ID_aadhar_pan\" : \"242404040102\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:6000/updateVisitorDetails/V839286231",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "6000",
+							"path": [
+								"updateVisitorDetails",
+								"V839286231"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

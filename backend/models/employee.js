@@ -13,8 +13,10 @@ const employeeSchema = new mongoose.Schema({
     },
     organizationID: {
         type: String,
-        ref: "Organization",
         required: true,
+        ref : "Organization",
+        path : "organizationID",
+        unique: true,
     },
     name: {
         type: String,

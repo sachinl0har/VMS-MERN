@@ -56,9 +56,9 @@ exports.getAllApprovalFlow = async (req, res) => {
 exports.updateApprovalFlow = async (req, res) => {
 
     try {
-
+        // Take the approvalFlowID from the url and update the approvalFlow
         const approvalFlow = await ApprovalFlow.findOneAndUpdate(
-            { approvalFlowID: req.body.approvalFlowID },
+            { approvalFlowID: req.params.id },
             req.body,
             {
                 new: true,
@@ -93,7 +93,7 @@ exports.deleteApprovalFlow = async (req, res) => {
     try {
 
         const approvalFlow = await ApprovalFlow.findOneAndUpdate(
-            { approvalFlowID: req.body.approvalFlowID },
+            { approvalFlowID: req.params.id },
             { status: 'D' },
             {
                 new: true,
@@ -127,18 +127,31 @@ exports.deleteApprovalFlow = async (req, res) => {
 // Get Approval Flow by Organization ID
 exports.getApprovalFlowByOrganizationID = async (req, res) => {
     try {
-        const approvalFlow = await ApprovalFlow.find({ organizationID: req.body.organizationID });
+
+        const approvalFlowDetails = await ApprovalFlow.findOne({
+            organizationID: req.params.id,
+        });
+
+        // If approvalFlow is not found
+        if (!approvalFlowDetails) {
+            return res.status(404).json({
+                status: "fail",
+                message: "No approval flow found",
+            });
+        }
 
         res.status(200).json({
-            status: 'success',
+            status: "success",
             data: {
-                approvalFlow,
+                approvalFlowDetails,
             },
         });
-    } catch (err) {
-        res.status(400).json({
-            status: 'fail',
-            message: err,
+
+        return approvalFlowDetails;
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            error: error.message
         });
     }
 }
