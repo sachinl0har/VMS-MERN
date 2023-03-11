@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const appMenu = () => {
   return (
+    <div className="wrapper">
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
     
     <a href="index3.html" className="brand-link">
@@ -54,6 +55,7 @@ const appMenu = () => {
         </nav>
       </div>
     </aside>
+    </div>
   )
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 
 const appFooter = () => {
   return (
+    <div className="wrapper">
     <footer className="main-footer">
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
     All rights reserved.
@@ -9,6 +10,7 @@ const appFooter = () => {
       <b>Version</b> 3.2.0
     </div>
   </footer>
+  </div>
   )
 }
 

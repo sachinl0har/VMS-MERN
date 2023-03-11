@@ -2,7 +2,8 @@ import React from 'react'
 
 const Dashboard = () => {
   return (
-
+<div className="content-wrapper">
+          
     <section className="content">
       <div className="container-fluid">
         
@@ -72,7 +73,7 @@ const Dashboard = () => {
         
       </div>
     </section>
-
+</div>
   )
 }
 

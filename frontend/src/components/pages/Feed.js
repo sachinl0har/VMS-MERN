@@ -4,7 +4,8 @@ import React, { useState } from 'react'
 
 const Feed = () => {
   return (
-
+<div className="content-wrapper">
+          
     <div>
       <div className="row p-2">
         <div className="col-md-12">
@@ -192,7 +193,7 @@ const Feed = () => {
         <button type="submit" className="btn btn-success">Submit</button>
       </div>
     </div>
-
+</div>
   )
 }
 
