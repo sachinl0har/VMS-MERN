@@ -14,7 +14,8 @@ const {
     fetchAppointmentDetails,
     modifyAppointmentDetails,
     deleteAppointment,
-    approveRejectAppointment
+    approveRejectAppointment,
+    fetchAllAppointments
 } = require("../controller/appointment");
 
 const {
@@ -41,6 +42,7 @@ router.route("/fetchEmployeeDetails/:id").get(fetchEmployeeDetails);
 router.route("/fetchAppointmentsByECode/:id").get(fetchAppointmentsByECode);
 
 // APPOINTMENTS ROUTES
+router.route("/fetchAllAppointments").get(fetchAllAppointments)
 router.route("/feedAppointment").post(feedAppointment);
 router.route("/fetchAppointmentDetails/:id").get(fetchAppointmentDetails);
 router.route("/modifyAppointmentDetails/:id").put(modifyAppointmentDetails);

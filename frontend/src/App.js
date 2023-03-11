@@ -6,24 +6,36 @@ import AppFooter from './components/appFooter';
 import Feed from './components/pages/Feed';
 import Login from './components/pages/Login';
 import Dashboard from './components/Dashboard';
+import Appointments from './components/pages/Appointments';
+
+import FeedAppointmentForm from './components/pages/FeedAppointmentForm';
 
 function App() {
   return (
     <Router>
       <Routes>
-      <Route element={ <Login/>} />
-          <Route path="/" exact element={ <Login/>} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/appointments" element={<AuthenticatedPage><Appointments /></AuthenticatedPage>} />
+        <Route path="/dashboard" element={<AuthenticatedPage><Dashboard /></AuthenticatedPage>} />
+        <Route path="/feed" element={<AuthenticatedPage><FeedAppointmentForm /></AuthenticatedPage>} />
       </Routes>
-        <AppHeader />
-        <AppMenu />
-        <Routes>
-          <Route path="/dashboard" element={ <Dashboard/>} />
-          <Route path="/feed" element={ <Feed/>} />
-          </Routes>
-        <AppFooter />
-      
     </Router>
   );
+}
+
+function AuthenticatedPage({ children }) {
+  return (
+    <>
+      <AppHeader />
+      <AppMenu />
+      {children}
+      <AppFooter />
+    </>
+  );
+}
+
+function LoginPage() {
+  return <Login />;
 }
 
 export default App;

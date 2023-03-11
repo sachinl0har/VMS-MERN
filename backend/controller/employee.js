@@ -63,6 +63,24 @@ exports.login = async (req, res, next) => {
     })
   }
 
+    // Write employeeId, organizationId to cookie for localhost://3000
+    res.cookie("employeeId", employee.employeeCode, {
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        domain: "localhost",
+        path: "/",
+        secure: true
+    });
+
+    res.cookie("organizationId", employee.organizationID, {
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        domain: "localhost",
+        path: "/",
+        secure: true
+    });
+
+  
   return res.status(200).json({
     success: true,
     employee

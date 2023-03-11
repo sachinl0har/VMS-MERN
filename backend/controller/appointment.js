@@ -1,6 +1,21 @@
 const Appointment = require("../models/appointment");
 const Visitor = require("../models/visitor");
 
+// initialize await fetchVisitorDetails(req, res);
+const fetchVisitorDetails = async (req, res) => {
+    try {
+        // Fetch Visitors Details by Aadhar ID or PAN ID
+        const visitor = await Visitor.findOne({
+            ID_aadhar_pan: req.body.ID_aadhar_pan,
+        });
+
+        // Return visitorID
+        return visitor.visitorID;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 // Feed Appointment
 exports.feedAppointment = async (req, res) => {
     try {
@@ -65,13 +80,16 @@ exports.feedAppointment = async (req, res) => {
             visitorID,
             fromDate: req.body.fromDate,
             toDate: req.body.toDate,
-            appointmentDate: req.body.appointmentDate,
+            appointmentDate: req.body.fromDate,
             appointmentTime: req.body.appointmentTime,
-            fedBy: req.body.fedBy,
-            employeeToMeet: req.body.employeeToMeet,
+
+            fedBy: req.cookies.employeeId,
+            employeeToMeet: req.cookies.employeeId,
+
             groupToVisit: req.body.groupToVisit,
             purpose: req.body.purpose,
-            status: "Pending"
+            status: "Pending",
+            organizationID : req.cookies.organizationID,
         });
 
         res.status(201).json({
@@ -219,3 +237,51 @@ exports.approveRejectAppointment = async (req, res) => {
         });
     }
 }
+
+// Fetch All Appointments
+exports.fetchAllAppointments = async (req, res) => {
+    try {
+
+        
+        const appointments = await Appointment.aggregate([
+            {
+                $lookup: {
+                    from: "visitors",
+                    localField: "visitorID",
+                    foreignField: "visitorID",
+                    as: "visitorDetails",
+                },
+            },
+            {
+                $lookup: {
+                    from: "employees",
+                    localField: "employeeToMeet",
+                    foreignField: "employeeID",
+                    as: "employeeDetails",
+                },
+            },
+        ]);
+        
+
+        res.status(200).json({
+            status: "success",
+            data: {
+                appointments,
+            },
+        });
+
+    //   const appointments = await Appointment.find();
+    //   res.status(200).json({
+    //     status: "success",
+    //     data: {
+    //       appointments,
+    //     },
+    //   });
+    } catch (err) {
+      res.status(400).json({
+        status: "fail",
+        message: err.message,
+      });
+    }
+  }
+  

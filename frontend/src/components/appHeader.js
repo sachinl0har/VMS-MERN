@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from "react-router-dom";
 
 const appHeader = () => {
   return (
@@ -10,7 +11,7 @@ const appHeader = () => {
         <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars"></i></a>
       </li>
       <li className="nav-item d-none d-sm-inline-block">
-        <a href="/" className="nav-link">Home</a>
+        <Link to="/dashboard" className="nav-link">Home</Link>
       </li>
     </ul>
 
@@ -26,6 +27,13 @@ const appHeader = () => {
           <i className="fas fa-th-large"></i>
         </a>
       </li>
+
+      <li className="nav-item">
+        <Link className="nav-link btn btn-sm btn-outline-danger" data-widget="control-sidebar" data-controlsidebar-slide="true" to="/" role="button">
+          <i className="fas fa-power-off"></i>
+        </Link>
+      </li>
+
     </ul>
   </nav>
   </div>
