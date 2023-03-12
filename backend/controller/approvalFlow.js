@@ -6,6 +6,19 @@ exports.feedApprovalFlow = async (req, res) => {
         // Generate approvalFlowID
         const approvalFlowID = "AF" + Math.floor(Math.random() * 1000000000);
 
+        // Check if oraganization already exists
+        const org = await ApprovalFlow.findOne({
+            organizationID: req.body.organizationID,
+        });
+
+        // If organization is found
+        if (org) {
+            return res.status(400).json({
+                status: "fail",
+                message: "Organization already exists",
+            });
+        }
+
         // Create new approvalFlow
         const approvalFlow = await ApprovalFlow.create({
             approvalFlowID,
@@ -56,6 +69,20 @@ exports.getAllApprovalFlow = async (req, res) => {
 exports.updateApprovalFlow = async (req, res) => {
 
     try {
+
+        // Check if oraganization already exists
+        const org = await ApprovalFlow.findOne({
+            organizationID: req.body.organizationID,
+        });
+
+        // If organization is found
+        if (org) {
+            return res.status(400).json({
+                status: "fail",
+                message: "Organization already exists",
+            });
+        }
+
         // Take the approvalFlowID from the url and update the approvalFlow
         const approvalFlow = await ApprovalFlow.findOneAndUpdate(
             { approvalFlowID: req.params.id },

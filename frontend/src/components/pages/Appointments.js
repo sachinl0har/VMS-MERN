@@ -3,22 +3,24 @@ import axios from "axios";
 import $ from "jquery";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import "datatables.net/js/jquery.dataTables.min.js";
+import { Link } from "react-router-dom";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/fetchAllAppointments")
-      .then(response => {
+    axios
+      .get("http://localhost:8000/fetchAllAppointments")
+      .then((response) => {
         console.log(response.data.data.appointments);
         setAppointments(response.data.data.appointments);
 
         // initialize DataTable
         $(document).ready(() => {
-          $('#appointmentsTable').DataTable();
+          $("#appointmentsTable").DataTable();
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }, []);
@@ -44,16 +46,17 @@ const Appointments = () => {
                     <th>Group to Visit</th>
                     <th>Purpose</th>
                     <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {appointments.map(appointment => (
+                  {appointments.map((appointment) => (
                     <tr key={appointment._id}>
                       <td>{appointment.appointmentID}</td>
                       <td>{appointment.visitorID}</td>
                       {appointment.visitorDetails.map((visitor) => (
                         <td key={visitor._id}>{visitor.vName}</td>
-                       ))}
+                      ))}
                       <td>{appointment.fromDate}</td>
                       <td>{appointment.toDate}</td>
                       <td>{appointment.appointmentDate}</td>
@@ -63,6 +66,13 @@ const Appointments = () => {
                       <td>{appointment.groupToVisit}</td>
                       <td>{appointment.purpose}</td>
                       <td>{appointment.status}</td>
+                      <td>
+                        <Link
+                          to={`/appointmentDetails/${appointment.appointmentID}`}
+                        >
+                          View
+                        </Link>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

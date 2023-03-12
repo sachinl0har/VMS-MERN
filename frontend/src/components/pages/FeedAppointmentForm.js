@@ -10,13 +10,9 @@ function FeedAppointmentForm() {
     const [ID_aadhar_pan, setID_aadhar_pan] = useState("");
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
-    const [appointmentDate, setAppointmentDate] = useState("");
     const [appointmentTime, setAppointmentTime] = useState("");
-    const [fedBy, setFedBy] = useState("");
-    const [employeeToMeet, setEmployeeToMeet] = useState("");
     const [groupToVisit, setGroupToVisit] = useState("");
     const [purpose, setPurpose] = useState("");
-    const [organizationID, setOrganizationID] = useState("");
 
     const handleSubmit = async (event) => {
         event.preventDefault();

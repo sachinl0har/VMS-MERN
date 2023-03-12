@@ -1,5 +1,7 @@
 const Appointment = require("../models/appointment");
 const Visitor = require("../models/visitor");
+const bwipjs = require('bwip-js');
+const moment = require('moment');
 
 // initialize await fetchVisitorDetails(req, res);
 const fetchVisitorDetails = async (req, res) => {
@@ -74,6 +76,13 @@ exports.feedAppointment = async (req, res) => {
             visitorID = await fetchVisitorDetails(req, res);
         }
 
+        // Get employeeID from cookies
+        const empId = req.cookies.employeeId;
+
+        const orgId = req.cookies.organizationId;
+
+        console.log("req.cookies.employeeId : " + empId);
+
         // Create new appointment
         const appointment = await Appointment.create({
             appointmentID,
@@ -83,13 +92,14 @@ exports.feedAppointment = async (req, res) => {
             appointmentDate: req.body.fromDate,
             appointmentTime: req.body.appointmentTime,
 
-            fedBy: req.cookies.employeeId,
-            employeeToMeet: req.cookies.employeeId,
+            fedBy: empId,
+            employeeToMeet: empId,
 
             groupToVisit: req.body.groupToVisit,
             purpose: req.body.purpose,
             status: "Pending",
-            organizationID : req.cookies.organizationID,
+
+            organizationID : orgId,
         });
 
         res.status(201).json({
@@ -110,9 +120,24 @@ exports.feedAppointment = async (req, res) => {
 // Fetch Appointment Details by Appointment ID
 exports.fetchAppointmentDetails = async (req, res) => {
     try {
-        const appointment = await Appointment.findOne({
-            appointmentID: req.params.id,
-        });
+
+        // Fetch Appointment Details by Appointment ID and join with Visitor Details by visitorID and Employee Details by employeeID
+        const appointment = await Appointment.aggregate([
+            {
+                $match: {
+                    appointmentID: req.params.id,
+                },
+            },
+            {
+                $lookup: {
+                    from: "visitors",
+                    localField: "visitorID",
+                    foreignField: "visitorID",
+                    as: "visitor",
+                },
+            }
+        ]);
+
 
         // If appointment is not found
         if (!appointment) {
@@ -285,3 +310,127 @@ exports.fetchAllAppointments = async (req, res) => {
     }
   }
   
+  // Fetch all pending appointments count for dashboard
+    exports.fetchAllPendingAppointmentsCount = async (req, res) => {
+        try {
+            const count = await Appointment.countDocuments({ status: "Pending" });
+            res.status(200).json({
+                status: "success",
+                data: {
+                    count,
+                },
+            });
+        } catch (err) {
+            res.status(400).json({
+                status: "fail",
+                message: err.message,
+            });
+        }
+    }
+
+// Fetch all approved appointments count for dashboard
+exports.fetchAllApprovedAppointmentsCount = async (req, res) => {
+    try {
+        const count = await Appointment.countDocuments({ status: "Approved" });
+        res.status(200).json({
+            status: "success",
+            data: {
+                count,
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err.message,
+        });
+    }
+}
+
+// Fetch all rejected appointments count for dashboard
+exports.fetchAllRejectedAppointmentsCount = async (req, res) => {
+    try {
+      const count = await Appointment.countDocuments({ status: "Rejected" });
+      res.status(200).json({
+        status: "success",
+        data: {
+          count,
+        },
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: "fail",
+        message: err.message,
+      });
+    }
+  };
+
+  // Fetch All Appointments Count excluding deleted appointments
+exports.fetchAllAppointmentsCount = async (req, res) => {
+    try {
+        const count = await Appointment.countDocuments({ status: { $ne: "Deleted" } });
+        res.status(200).json({
+            status: "success",
+            data: {
+                count,
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err.message,
+        });
+    }
+};
+  
+
+// Generate a barcode for appointment ID
+exports.generateBarcode = async (req, res) => {
+    try {
+        const appointment = await Appointment.findOne({
+            appointmentID: req.params.id,
+        });
+
+        // Get Visitors Details by Visitor ID
+        const visitor = await Visitor.findOne({
+            visitorID: appointment.visitorID,
+        });
+
+        // If appointment is not found
+        if (!appointment) {
+            return res.status(404).json({
+                status: "fail",
+                message: "No appointment found with this ID",
+            });
+        }
+
+        // Format appointment date to DD/MM/YYYY
+        const appointmentDate = moment(appointment.appointmentDate).format("DD/MM/YYYY").toString();
+        console.log(appointmentDate);
+        const appointmentTime = appointment.appointmentTime.toString();
+        
+        // Generate Barcode using appointment ID + appointment date (Date and Month) + appointment time (Hours and Minutes)
+        const barcodeId = appointment.appointmentID + appointmentDate.substring(0, 2) + appointmentDate.substring(3, 5) + appointmentTime.substring(0, 2) + appointmentTime.substring(3, 5);
+
+        const barcode = await bwipjs.toBuffer({
+            bcid: "code128", // Barcode type
+            
+            text: barcodeId, // Text to encode
+            scale: 3, // 3x scaling factor
+            height: 10, // Bar height, in millimeters
+            includetext: true, // Show human-readable text
+            textxalign: "center", // Always good to set this
+        });
+
+        res.writeHead(200, {
+            "Content-Type": "image/png",
+            "Content-Length": barcode.length,
+        });
+
+        res.end(barcode);
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err.message,
+        });
+    }
+}

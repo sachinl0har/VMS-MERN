@@ -15,7 +15,13 @@ const {
     modifyAppointmentDetails,
     deleteAppointment,
     approveRejectAppointment,
-    fetchAllAppointments
+    fetchAllAppointments,
+    fetchAllPendingAppointmentsCount,
+    fetchAllApprovedAppointmentsCount,
+    fetchAllRejectedAppointmentsCount,
+    fetchAllAppointmentsCount,
+
+    generateBarcode
 } = require("../controller/appointment");
 
 const {
@@ -42,6 +48,11 @@ router.route("/fetchEmployeeDetails/:id").get(fetchEmployeeDetails);
 router.route("/fetchAppointmentsByECode/:id").get(fetchAppointmentsByECode);
 
 // APPOINTMENTS ROUTES
+router.route("/printPass/:id").get(generateBarcode);
+router.route("/fetchAllAppointmentsCount").get(fetchAllAppointmentsCount);
+router.route("/fetchAllRejectedAppointmentsCount").get(fetchAllRejectedAppointmentsCount);
+router.route("/fetchAllApprovedAppointmentsCount").get(fetchAllApprovedAppointmentsCount);
+router.route("/fetchAllPendingAppointmentsCount").get(fetchAllPendingAppointmentsCount);
 router.route("/fetchAllAppointments").get(fetchAllAppointments)
 router.route("/feedAppointment").post(feedAppointment);
 router.route("/fetchAppointmentDetails/:id").get(fetchAppointmentDetails);

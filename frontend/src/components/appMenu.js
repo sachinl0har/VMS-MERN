@@ -5,7 +5,7 @@ import user2Img from '../assets/Style/dist/img/user2-160x160.jpg';
 import logoImg from '../assets/Style/dist/img/AdminLTELogo.png';
 
 
-const appMenu = () => {
+const appMenu = (role) => {
   return (
     <div className="wrapper">
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -62,6 +62,15 @@ const appMenu = () => {
                 <p>Appointments</p>
               </Link>
             </li>
+
+            {role === 'admin' && (
+            <li className="nav-item">
+              <Link to="/approve" className="nav-link">
+                <i className="nav-icon fas fa-list"></i>
+                <p>Approve</p>
+              </Link>
+            </li>
+            )};
 
           </ul>
         </nav>
