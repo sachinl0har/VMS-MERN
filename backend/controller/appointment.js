@@ -434,3 +434,70 @@ exports.generateBarcode = async (req, res) => {
         });
     }
 }
+
+// Update Appointment Status to Visitors Checked In
+exports.VisitorCheckedIn = async (req, res) => {
+    try {
+        const appointment = await Appointment.findOneAndUpdate(
+            { appointmentID: req.params.id },
+            { status: "Checked In" },
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+
+        // If appointment is not found
+        if (!appointment) {
+            return res.status(404).json({
+                status: "fail",
+                message: "No appointment found with this ID",
+            });
+        }
+
+        res.status(200).json({
+            status: "success",
+            data: {
+                appointment,
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err,
+        });
+    }
+}
+
+exports.VisitorCheckedOut = async (req, res) => {
+    try {
+        const appointment = await Appointment.findOneAndUpdate(
+            { appointmentID: req.params.id },
+            { status: "Checked Out" },
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
+
+        // If appointment is not found
+        if (!appointment) {
+            return res.status(404).json({
+                status: "fail",
+                message: "No appointment found with this ID",
+            });
+        }
+
+        res.status(200).json({
+            status: "success",
+            data: {
+                appointment,
+            },
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err,
+        });
+    }
+}

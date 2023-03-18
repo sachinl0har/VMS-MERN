@@ -21,7 +21,9 @@ const {
     fetchAllRejectedAppointmentsCount,
     fetchAllAppointmentsCount,
 
-    generateBarcode
+    generateBarcode,
+    VisitorCheckedIn,
+    VisitorCheckedOut
 } = require("../controller/appointment");
 
 const {
@@ -48,6 +50,8 @@ router.route("/fetchEmployeeDetails/:id").get(fetchEmployeeDetails);
 router.route("/fetchAppointmentsByECode/:id").get(fetchAppointmentsByECode);
 
 // APPOINTMENTS ROUTES
+router.route("/VisitorCheckedOut/:id").put(VisitorCheckedOut);
+router.route("/VisitorCheckedIn/:id").put(VisitorCheckedIn);
 router.route("/printPass/:id").get(generateBarcode);
 router.route("/fetchAllAppointmentsCount").get(fetchAllAppointmentsCount);
 router.route("/fetchAllRejectedAppointmentsCount").get(fetchAllRejectedAppointmentsCount);
