@@ -408,8 +408,8 @@ exports.generateBarcode = async (req, res) => {
         console.log(appointmentDate);
         const appointmentTime = appointment.appointmentTime.toString();
         
-        // Generate Barcode using appointment ID + appointment date (Date and Month) + appointment time (Hours and Minutes)
-        const barcodeId = appointment.appointmentID + appointmentDate.substring(0, 2) + appointmentDate.substring(3, 5) + appointmentTime.substring(0, 2) + appointmentTime.substring(3, 5);
+        // Generate Barcode using appointment ID + appointment date (Date and Month) + appointment time (Hours) + Current Date and Time
+        const barcodeId = appointment.appointmentID + appointmentDate.substring(0, 2) + appointmentDate.substring(3, 5) + appointmentTime.substring(0, 2) + moment().format("DDMMYYHH").toString();
 
         const barcode = await bwipjs.toBuffer({
             bcid: "code128", // Barcode type
